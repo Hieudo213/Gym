@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /gym
+
+spring:
+  datasource:
+    username: root
+    password: Concho123
+    url: jdbc:mysql://localhost:3306/gym
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

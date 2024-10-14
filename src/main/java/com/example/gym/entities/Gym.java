@@ -1,17 +1,26 @@
 package com.example.gym.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Gym {
-    private Integer gymId;
-    private String name;
-    private String location;
-    private String description;
-    private Integer roomNumber;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
+    String name;
+    String location;
+    String description;
+    Integer roomNumber;
 
 }

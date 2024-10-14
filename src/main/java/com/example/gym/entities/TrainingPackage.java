@@ -1,12 +1,27 @@
 package com.example.gym.entities;
 
 import com.example.gym.entities.enums.PackageType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TrainingPackage {
-    private Integer packageId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
-    private String duration; // E.g., "3 months", "1 year"
+    private String duration;
     private Double price;
-    private PackageType type; // Enum for package type
+    private PackageType type;
     private String description;
 }
