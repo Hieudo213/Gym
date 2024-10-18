@@ -18,10 +18,10 @@ import lombok.experimental.FieldDefaults;
 public class TrainingPackage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
-    private String duration;
-    private Double price;
-    private PackageType type;
-    private String description;
+    Integer id;
+    String name;
+    String duration;
+    String price;
+    PackageType type;
+    String description;
 }

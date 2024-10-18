@@ -1,13 +1,11 @@
-package com.example.gym.service.interfaces.implement;
+package com.example.gym.service.implement;
 
 import com.example.gym.dto.request.GymRequest;
-import com.example.gym.dto.response.ApiResponse;
 import com.example.gym.dto.response.GymResponse;
 import com.example.gym.entities.Gym;
 import com.example.gym.mapper.GymMapper;
 import com.example.gym.repositories.GymRepository;
-import com.example.gym.service.interfaces.GymService;
-import jakarta.persistence.Id;
+import com.example.gym.service.GymService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

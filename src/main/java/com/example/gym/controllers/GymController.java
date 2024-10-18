@@ -3,7 +3,7 @@ package com.example.gym.controllers;
 import com.example.gym.dto.request.GymRequest;
 import com.example.gym.dto.response.ApiResponse;
 import com.example.gym.dto.response.GymResponse;
-import com.example.gym.service.interfaces.GymService;
+import com.example.gym.service.GymService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

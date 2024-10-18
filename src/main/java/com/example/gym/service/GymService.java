@@ -1,4 +1,4 @@
-package com.example.gym.service.interfaces;
+package com.example.gym.service;
 
 import com.example.gym.dto.request.GymRequest;
 import com.example.gym.dto.response.ApiResponse;
