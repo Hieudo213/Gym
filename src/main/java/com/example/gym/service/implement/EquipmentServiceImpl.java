@@ -3,6 +3,9 @@ package com.example.gym.service.implement;
 import com.example.gym.dto.request.EquipmentRequest;
 import com.example.gym.dto.response.EquipmentResponse;
 import com.example.gym.entities.Equipment;
+import com.example.gym.entities.Gym;
+import com.example.gym.exception.ApplicationException;
+import com.example.gym.exception.ErrorCode;
 import com.example.gym.mapper.EquipmentMapper;
 import com.example.gym.repositories.EquipmentRepository;
 import com.example.gym.service.EquipmentService;
@@ -30,25 +33,35 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public EquipmentResponse updateEquipment(EquipmentRequest request, Integer id) {
         Equipment equipment = equipmentRepository
-                .findById(id).orElseThrow(()-> new RuntimeException("Equipment not found"));
+                .findById(id).orElseThrow(()-> new ApplicationException(ErrorCode.ITEM_NOT_FOUND));
         equipmentMapper.updateEquipment(equipment, request);
         return equipmentMapper.toEquipmentResponse(equipmentRepository.save(equipment));
     }
 
     @Override
     public void deleteEquipment(Integer id) {
+        equipmentRepository
+                .findById(id).orElseThrow(()-> new ApplicationException(ErrorCode.ITEM_NOT_FOUND));
         equipmentRepository.deleteById(id);
     }
 
     @Override
     public List<EquipmentResponse> getAllEquipment() {
-        return equipmentRepository.findAll().stream().map(equipmentMapper::toEquipmentResponse).toList();
+        List<Equipment> equipments = equipmentRepository.findAll();
+
+        if (equipments.isEmpty()) {
+            throw new ApplicationException(ErrorCode.LIST_EMPTY);
+        }
+
+        return equipments.stream()
+                .map(equipmentMapper::toEquipmentResponse)
+                .toList();
     }
 
     @Override
     public EquipmentResponse getEquipmentById(Integer id) {
         return equipmentMapper.toEquipmentResponse(equipmentRepository
-                .findById(id).orElseThrow(()-> new RuntimeException("Equipment not found")));
+                .findById(id).orElseThrow(()-> new ApplicationException(ErrorCode.ITEM_NOT_FOUND)));
     }
 
 }

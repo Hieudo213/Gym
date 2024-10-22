@@ -2,7 +2,11 @@ package com.example.gym.service.implement;
 
 import com.example.gym.dto.request.TrainingPackageRequest;
 import com.example.gym.dto.response.TrainingPackageResponse;
+import com.example.gym.entities.Room;
 import com.example.gym.entities.TrainingPackage;
+import com.example.gym.exception.ApplicationException;
+import com.example.gym.exception.ErrorCode;
+import com.example.gym.mapper.RoomMapper;
 import com.example.gym.mapper.TrainingPackageMapper;
 import com.example.gym.repositories.TrainingPackageRepository;
 import com.example.gym.service.TrainingPackageService;
@@ -22,7 +26,6 @@ public class TrainingPackageServiceImpl implements TrainingPackageService {
     TrainingPackageRepository trainingPackageRepository;
     TrainingPackageMapper trainingPackageMapper;
 
-
     @Override
     public TrainingPackageResponse createTrainingPackage(TrainingPackageRequest request) {
         TrainingPackage trainingPackage = trainingPackageMapper.toTrainingPackage(request);
@@ -32,20 +35,27 @@ public class TrainingPackageServiceImpl implements TrainingPackageService {
     @Override
     public TrainingPackageResponse updateTrainingPackage(TrainingPackageRequest request, Integer id) {
         TrainingPackage trainingPackage = trainingPackageRepository
-                .findById(id).orElseThrow(()-> new RuntimeException("Training Package Not Found"));
+                .findById(id).orElseThrow(() -> new ApplicationException(ErrorCode.ITEM_NOT_FOUND));
         trainingPackageMapper.updateTrainingPackage(trainingPackage, request);
         return trainingPackageMapper.toTrainingPackageResponse(trainingPackageRepository.save(trainingPackage));
     }
 
     @Override
     public void deleteTrainingPackage(Integer id) {
+        trainingPackageRepository
+                .findById(id).orElseThrow(() -> new ApplicationException(ErrorCode.ITEM_NOT_FOUND));
         trainingPackageRepository.deleteById(id);
     }
 
     @Override
     public List<TrainingPackageResponse> getAllTrainingPackages() {
-        return trainingPackageRepository.findAll()
-                .stream()
+        List<TrainingPackage> trainingPackages = trainingPackageRepository.findAll();
+
+        if (trainingPackages.isEmpty()) {
+            throw new ApplicationException(ErrorCode.LIST_EMPTY);
+        }
+
+        return trainingPackages.stream()
                 .map(trainingPackageMapper::toTrainingPackageResponse)
                 .toList();
     }
@@ -54,6 +64,6 @@ public class TrainingPackageServiceImpl implements TrainingPackageService {
     public TrainingPackageResponse getTrainingPackageById(Integer id) {
         return trainingPackageMapper.toTrainingPackageResponse(trainingPackageRepository
                 .findById(id)
-                .orElseThrow(()-> new RuntimeException("Training Package Not Found")));
+                .orElseThrow(() -> new ApplicationException(ErrorCode.ITEM_NOT_FOUND)));
     }
 }
